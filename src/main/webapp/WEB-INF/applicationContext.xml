@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:lang="http://www.springframework.org/schema/lang"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="messageResource" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+        p:location="/WEB-INF/jdbc.properties" />
+        
+    <bean id="dataSource"
+        class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+        p:driverClassName="${jdbc.driverClassName}"
+        p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
+        p:password="${jdbc.password}" />
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
+        
+	<bean id="sessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+        <!-- <property name="configurationClass">
+            <value>org.hibernate.cfg.AnnotationConfiguration</value>
+        </property> -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.autoReconnect">true</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <tx:annotation-driven />
+   	<bean id="transactionManager"
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+	
+	<!-- <bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean> -->
+
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="add*">PROPAGATION_REQUIRED</prop>
+				<prop key="set*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove">PROPAGATION_REQUIRED</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- Column Configuration -->
+	<bean id="columnDAO" class="com.chinadaas.gsinfo.admin.dao.impl.ColumnDAOImpl" autowire="byName"/>
+	<bean id="columnService" class="com.chinadaas.gsinfo.admin.service.impl.ColumnServiceImpl" autowire="byName"/>
+	
+	<!-- ColumnGroup Configuration -->
+	<bean id="columnGroupDAO" class="com.chinadaas.gsinfo.admin.dao.impl.ColumnGroupDAOImpl" autowire="byName"/>
+	<bean id="columnGroupService" class="com.chinadaas.gsinfo.admin.service.impl.ColumnGroupServiceImpl" autowire="byName"/>
+	
+	<!-- Contract Configuration -->
+	<bean id="contractDAO" class="com.chinadaas.gsinfo.admin.dao.impl.ContractDAOImpl" autowire="byName"/>
+	<bean id="contractService" class="com.chinadaas.gsinfo.admin.service.impl.ContractServiceImpl" autowire="byName"/>
+	
+	<!-- Customer Configuration -->
+	<bean id="customerDAO" class="com.chinadaas.gsinfo.admin.dao.impl.CustomerDAOImpl" autowire="byName"/>
+	<bean id="customerService" class="com.chinadaas.gsinfo.admin.service.impl.CustomerServiceImpl" autowire="byName"/>
+	
+	<!-- GroupCategory Configuration -->
+	<bean id="groupCategoryDAO" class="com.chinadaas.gsinfo.admin.dao.impl.GroupCategoryDAOImpl" autowire="byName"/>
+	<bean id="groupCategoryService" class="com.chinadaas.gsinfo.admin.service.impl.GroupCategoryServiceImpl" autowire="byName"/>
+	
+	<!-- IndexInfo Configuration -->
+	<bean id="indexInfoDAO" class="com.chinadaas.gsinfo.admin.dao.impl.IndexInfoDAOImpl" autowire="byName"/>
+	<bean id="indexInfoService" class="com.chinadaas.gsinfo.admin.service.impl.IndexInfoServiceImpl" autowire="byName"/>
+	
+	<!-- Menu Configuration -->
+	<bean id="menuDAO" class="com.chinadaas.gsinfo.admin.dao.impl.MenuDAOImpl" autowire="byName"/>
+	<bean id="menuService" class="com.chinadaas.gsinfo.admin.service.impl.MenuServiceImpl" autowire="byName"/>
+	
+	<!-- OrderLimit Configuration -->
+	<bean id="orderLimitDAO" class="com.chinadaas.gsinfo.admin.dao.impl.OrderLimitDAOImpl" autowire="byName"/>
+	<bean id="orderLimitService" class="com.chinadaas.gsinfo.admin.service.impl.OrderLimitServiceImpl" autowire="byName"/>
+	
+	<!-- Org Configuration -->
+	<bean id="orgDAO" class="com.chinadaas.gsinfo.admin.dao.impl.OrgDAOImpl" autowire="byName"/>
+	<bean id="orgService" class="com.chinadaas.gsinfo.admin.service.impl.OrgServiceImpl" autowire="byName"/>
+	
+	<!-- ProductOrder Configuration -->
+	<bean id="productOrderDAO" class="com.chinadaas.gsinfo.admin.dao.impl.ProductOrderDAOImpl" autowire="byName"/>
+	<bean id="productOrderService" class="com.chinadaas.gsinfo.admin.service.impl.ProductOrderServiceImpl" autowire="byName"/>
+	
+	<!-- ProductTpl Configuration -->
+	<bean id="productTplDAO" class="com.chinadaas.gsinfo.admin.dao.impl.ProductTplDAOImpl" autowire="byName"/>
+	<bean id="productTplService" class="com.chinadaas.gsinfo.admin.service.impl.ProductTplServiceImpl" autowire="byName"/>
+	
+	<!-- Role Configuration -->
+	<bean id="roleDAO" class="com.chinadaas.gsinfo.admin.dao.impl.RoleDAOImpl" autowire="byName"/>
+	<bean id="roleService" class="com.chinadaas.gsinfo.admin.service.impl.RoleServiceImpl" autowire="byName"/>
+	
+	<!-- RuntimeCfg Configuration -->
+	<bean id="runtimeCfgDAO" class="com.chinadaas.gsinfo.admin.dao.impl.RuntimeCfgDAOImpl" autowire="byName"/>
+	<bean id="runtimeCfgService" class="com.chinadaas.gsinfo.admin.service.impl.RuntimeCfgServiceImpl" autowire="byName"/>
+	
+	<!-- Ukey Configuration -->
+	<bean id="ukeyDAO" class="com.chinadaas.gsinfo.admin.dao.impl.UkeyDAOImpl" autowire="byName"/>
+	<bean id="ukeyService" class="com.chinadaas.gsinfo.admin.service.impl.UkeyServiceImpl" autowire="byName"/>
+	
+	<!-- UkeyStat Configuration -->
+	<bean id="ukeyStatDAO" class="com.chinadaas.gsinfo.admin.dao.impl.UkeyStatDAOImpl" autowire="byName"/>
+	<bean id="ukeyStatService" class="com.chinadaas.gsinfo.admin.service.impl.UkeyStatServiceImpl" autowire="byName"/>
+	
+	<!-- User Configuration -->
+	<bean id="userDAO" class="com.chinadaas.gsinfo.admin.dao.impl.UserDAOImpl" autowire="byName"/>
+	<bean id="userService" class="com.chinadaas.gsinfo.admin.service.impl.UserServiceImpl" autowire="byName"/>
+	
+</beans>

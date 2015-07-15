@@ -1,0 +1,67 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="messageResource"></constant>
+
+	<package name="default" extends="struts-default" namespace="/">
+
+		<!-- 拦截器 -->
+		<interceptors>
+			<!-- 登录验证 -->
+			<interceptor name="loginVerify" class="com.chinadaas.gsinfo.admin.interceptor.LoginInterceptor">
+				<param name="includeMethods">list,save,update,delete,select,tree,assign,view,user*</param>
+			</interceptor>
+			<!-- 登录验证 -->
+			<interceptor name="logger" class="com.chinadaas.gsinfo.admin.interceptor.LoggerInterceptor">
+			</interceptor>
+			<interceptor-stack name="verify">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loginVerify"></interceptor-ref>
+				<interceptor-ref name="logger"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="verify"></default-interceptor-ref>
+		<global-results>
+            <result name="login" type="dispatcher">login.jsp</result>
+        </global-results>
+
+		<!-- 登录 -->
+		<action name="doLogin" method="login" class="com.chinadaas.gsinfo.admin.action.LogAction"/>
+		
+		<!-- 修改密码 -->
+		<action name="changePassword" method="changePassword" class="com.chinadaas.gsinfo.admin.action.LogAction"/>
+
+		<!-- 登出 -->
+		<action name="logout" method="logout" class="com.chinadaas.gsinfo.admin.action.LogAction">
+			<result name="success" type="redirect">login.jsp</result>
+		</action>
+
+		<!-- list_*, save_*, update_*, delete_*, select_*, assign_*, view_* -->
+		<action name="*_column" 		method="{1}" class="com.chinadaas.gsinfo.admin.action.ColumnAction" />
+		<action name="*_columnGroup" 	method="{1}" class="com.chinadaas.gsinfo.admin.action.ColumnGroupAction" />
+		<action name="*_contract" 		method="{1}" class="com.chinadaas.gsinfo.admin.action.ContractAction" />
+		<action name="*_customer" 		method="{1}" class="com.chinadaas.gsinfo.admin.action.CustomerAction" />
+		<action name="*_groupCategory" 	method="{1}" class="com.chinadaas.gsinfo.admin.action.GroupCategoryAction" />
+		<action name="*_indexInfo" 		method="{1}" class="com.chinadaas.gsinfo.admin.action.IndexInfoAction" />
+		<action name="*_menu" 			method="{1}" class="com.chinadaas.gsinfo.admin.action.MenuAction" />
+		<action name="*_orderLimit" 	method="{1}" class="com.chinadaas.gsinfo.admin.action.OrderLimitAction" />
+		<action name="*_org" 			method="{1}" class="com.chinadaas.gsinfo.admin.action.OrgAction" />
+		<action name="*_productOrder" 	method="{1}" class="com.chinadaas.gsinfo.admin.action.ProductOrderAction" />
+		<action name="*_productTpl" 	method="{1}" class="com.chinadaas.gsinfo.admin.action.ProductTplAction" />
+		<action name="*_role" 			method="{1}" class="com.chinadaas.gsinfo.admin.action.RoleAction" />
+		<action name="*_runtimeCfg" 	method="{1}" class="com.chinadaas.gsinfo.admin.action.RuntimeCfgAction" />
+		<action name="*_ukey" 			method="{1}" class="com.chinadaas.gsinfo.admin.action.UkeyAction" />
+		<action name="*_ukeyStat" 		method="{1}" class="com.chinadaas.gsinfo.admin.action.UkeyStatAction" />
+		<action name="*_user" 			method="{1}" class="com.chinadaas.gsinfo.admin.action.UserAction" />
+		<action name="view_*" 			method="{1}" class="com.chinadaas.gsinfo.admin.action.ViewAction" />
+
+		<action name="home" method="index" class="com.chinadaas.gsinfo.admin.action.IndexAction">
+			<result name="success">index.jsp</result>
+			<result name="error">login.jsp</result>
+		</action>
+
+	</package>
+
+
+</struts>

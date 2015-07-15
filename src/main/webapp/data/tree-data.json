@@ -1,0 +1,80 @@
+[{
+    text:'UKey管理',
+    children:[{
+        text:'UKey',
+        id:'ukey',
+        leaf:true
+    }]
+},{
+    text:'用户管理',
+    expanded: true,
+    children:[{
+        text:'用户',
+        id:'user',
+        leaf:true
+    },{
+        text:'机构',
+        id:'org',
+        leaf:true
+    },{
+        text:'客户',
+        id:'customer',
+        leaf:true
+    }]
+},{
+    text:'产品管理',
+    children:[{
+        text:'产品模板',
+        id:'product_tpl',
+        leaf:true
+    },{
+        text:'字段组别',
+        id:'column_group',
+        leaf:true
+    },{
+        text:'字段',
+        id:'column',
+        leaf:true
+    }]
+},{
+    text:'菜单管理',
+    children:[{
+        text:'菜单',
+        id:'menu',
+        leaf:true
+    },{
+        text:'菜单角色',
+        id:'role',
+        leaf:true
+    }]
+},{
+    text:'权限管理',
+    children:[{
+        text:'分配菜单角色',
+        id:'alloc_role',
+        leaf:true
+    },{
+        text:'分配ukey',
+        id:'alloc_ukey',
+        leaf:true
+    },{
+        text:'分配产品',
+        id:'alloc_product',
+        leaf:true
+    }]
+},{
+    text:'系统管理',
+    children:[{
+        text:'首页信息',
+        id:'index_info',
+        leaf:true
+    },{
+        text:'运行配置',
+        id:'runtime_cfg',
+        leaf:true
+    },{
+        text:'页签分类',
+        id:'category',
+        leaf:true
+    }]
+}]

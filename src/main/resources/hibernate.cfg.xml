@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ 
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Column" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.ColumnGroup" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Contract" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Customer" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.GroupCategory" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.IndexInfo" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Menu" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.OrderLimit" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Org" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.ProductOrder" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.ProductTpl" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Role" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.RuntimeCfg" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.Ukey" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.UkeyStat" />
+        <mapping class="com.chinadaas.gsinfo.admin.vo.User" />
+    </session-factory>
+         
+</hibernate-configuration>
